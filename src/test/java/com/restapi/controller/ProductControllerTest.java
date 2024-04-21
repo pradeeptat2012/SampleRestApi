@@ -17,6 +17,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,6 +36,7 @@ import com.restapi.service.ProductService;
 @WebMvcTest(ProductController.class)
 @SpringBootTest(classes = RestApiKafkaApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ProductControllerTest {
+	private static Logger LOGGER = LoggerFactory.getLogger(ProductControllerTest.class);
 	private static final String END_POINT_PATH = "/api/v1";
 	@Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
@@ -46,6 +49,7 @@ class ProductControllerTest {
 	
 	@Test
     public void testAddShouldReturn400BadRequest() throws Exception {
+		LOGGER.info("Testing 400 Bad Request for Rest Api");
         Product newProduct = new Product();
         newProduct.setId(1L);
         newProduct.setName("shopping");
@@ -63,6 +67,7 @@ class ProductControllerTest {
 	
 	@Test
 	public void testAddShouldReturn201Created() throws Exception {
+		LOGGER.info("Testing 200 Source Creation for Rest Api");
 		Product newProduct = new Product();
         newProduct.setId(2L);
         newProduct.setName("fulfilment");
@@ -83,6 +88,7 @@ class ProductControllerTest {
 	
 	@Test
 	public void testGetShouldReturn404NotFound() throws Exception {
+		LOGGER.info("Testing 404 Resource Not found for Rest Api");
 	    Long Id = 123L;
 	    String requestURI = END_POINT_PATH + "/products" + Id;
 	 
@@ -95,6 +101,8 @@ class ProductControllerTest {
 	@Test
 	public void testListShouldReturn204NoContent() throws Exception {
 		
+		LOGGER.info("Testing 204 No Content Available for Rest Api");
+		
 		String requestURI = END_POINT_PATH + "/products";
 	    Mockito.when(service.getAllProducts()).thenReturn(new ArrayList<>());
 	 
@@ -105,6 +113,8 @@ class ProductControllerTest {
 	
 	@Test
 	public void testListShouldReturn200OK() throws Exception {
+		
+		LOGGER.info("Testing 200 status code for Getting List of All Products in Rest Api");
 		
 		String requestURI = END_POINT_PATH + "/products";
 		Product product1 = new Product();
@@ -133,6 +143,7 @@ class ProductControllerTest {
 	
 	@Test
 	public void testUpdateShouldReturn404NotFound() throws Exception {
+		LOGGER.info("Testing testUpdateShouldReturn404NotFound() if resource not available");
 	    Long productId = 123L;
 	    String requestURI = END_POINT_PATH+"/products" + "/" + productId;
 	 
@@ -153,6 +164,7 @@ class ProductControllerTest {
 	
 	@Test
 	public void testUpdateShouldReturn400BadRequest() throws Exception {
+		LOGGER.info("Testing testUpdateShouldReturn400BadRequest() if resource giving bad request");
 	    Long productId = 123L;
 	    String requestURI = END_POINT_PATH+"/products" + "/" + productId;
 	 
@@ -170,6 +182,7 @@ class ProductControllerTest {
 	}
 	@Test
 	public void testUpdateShouldReturn200OK() throws Exception {
+		LOGGER.info("Testing testUpdateShouldReturn200OK() if resource available");
 	    Long productId = 123L;
 	    String requestURI = END_POINT_PATH+"/products" + "/" + productId;
 	 
@@ -192,6 +205,7 @@ class ProductControllerTest {
 	
 	@Test
 	public void testDeleteShouldReturn404NotFound() throws Exception {
+		LOGGER.info("Testing testDeleteShouldReturn404NotFound() if resource giving 404");
 	    Long productId = 123L;
 	    String requestURI = END_POINT_PATH + "/products/" + productId;
 	 
@@ -204,6 +218,7 @@ class ProductControllerTest {
 	
 	@Test
 	public void testDeleteShouldReturn200OK() throws Exception {
+		LOGGER.info("Testing testDeleteShouldReturn200OK() if resource available");
 	    Long productId = 123L;
 	    String requestURI = END_POINT_PATH + "/products/" + productId;
 	 

@@ -3,9 +3,10 @@ package com.restapi.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.restapi.entity.Product;
 import com.restapi.repository.ProductRepository;
 
@@ -14,6 +15,8 @@ import com.restapi.repository.ProductRepository;
  */
 @Service
 public class ProductService {
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 	
 	private final ProductRepository productRepository;
 	
@@ -29,6 +32,7 @@ public class ProductService {
      * @return the persisted entity
      */
     public Product saveProduct(Product product) {
+    	LOGGER.info("Inside saveProduct() method of ProductService");
         return productRepository.save(product);
     }
     
@@ -39,6 +43,7 @@ public class ProductService {
      * @return the list of entities
      */
     public List<Product> getAllProducts() {
+    	LOGGER.info("Inside getAllProducts() method of ProductService");
         return productRepository.findAll();
     }
     
@@ -49,6 +54,7 @@ public class ProductService {
      * @return the entity
      */
     public Optional<Product> getProductById(Long id) {
+    	LOGGER.info("Inside getProductById() method of ProductService");
         return productRepository.findById(id);
     }
  
@@ -60,6 +66,7 @@ public class ProductService {
      * @return the updated entity
      */
     public Product updateProduct(Long id, Product updatedProduct) {
+    	LOGGER.info("Inside updateProduct() method of ProductService");
         Optional<Product> existingProduct = productRepository.findById(id);
         if (existingProduct.isPresent()) {
             Product product = existingProduct.get();
@@ -78,6 +85,7 @@ public class ProductService {
      * @param id the ID of the entity
      */
     public void deleteProduct(Long id) {
+    	LOGGER.info("Inside deleteProduct() method of ProductService");
         productRepository.deleteById(id);
     }
  

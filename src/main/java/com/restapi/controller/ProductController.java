@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.restapi.entity.Product;
 import com.restapi.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/v1")
 public class ProductController {
+	private static Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 	
 	private final ProductService productService;
 	
@@ -33,6 +36,7 @@ public class ProductController {
      */
     @PostMapping("/product")
     public ResponseEntity<Product> saveProduct(@RequestBody Product product) {
+    	LOGGER.info("Inside saveProduct()method of ProductController!");
         Product newProduct = productService.saveProduct(product);
         return ResponseEntity.ok(newProduct);
     }
@@ -44,6 +48,7 @@ public class ProductController {
      */
     @GetMapping("/products")
     public List<Product> getAllProducts() {
+    	LOGGER.info("Inside getAllProducts()method of ProductController!");
         return productService.getAllProducts();
     }
     
@@ -55,6 +60,7 @@ public class ProductController {
      */
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    	LOGGER.info("Inside getProductById()method of ProductController!");
         Optional<Product> product = productService.getProductById(id);
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -68,6 +74,7 @@ public class ProductController {
      */
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    	LOGGER.info("Inside updateProduct()method of ProductController!");
         Product updatedProduct = productService.updateProduct(id, product);
         return ResponseEntity.ok(updatedProduct);
     }
@@ -80,6 +87,7 @@ public class ProductController {
      */
     @DeleteMapping("/products/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+    	LOGGER.info("Inside deleteProduct()method of ProductController!");
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product deleted successfully");
     }
